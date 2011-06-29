@@ -10,8 +10,9 @@ Package: keystone
 Architecture: all
 Homepage: https://github.com/cloudbuilders/keystone
 XB-Python-Version: ${python:Versions}
-Depends: ${misc:Depends}, ${python:Depends}
+Depends: ${misc:Depends}, ${python:Depends}, adduser, python-lxml, python-pysqlite2, sqlite3
 Description: Blah python module that adds blah and bleh
  Here you should put a long description your package. This line *MUST* (this is
  for default printing) begin with a single space.
  Look for more information about this.
+

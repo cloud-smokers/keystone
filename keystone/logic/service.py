@@ -17,6 +17,7 @@ from datetime import datetime
 from datetime import timedelta
 import uuid
 
+from keystone.common import config
 import keystone.logic.types.auth as auth
 import keystone.logic.types.atom as atom
 import keystone.db.sqlalchemy.api as db_api
@@ -27,6 +28,7 @@ import keystone.logic.types.role as roles
 import keystone.logic.types.user as get_users
 import keystone.logic.types.baseURL as baseURLs
 import keystone.utils as utils
+
 
 class IdentityService(object):
     "This is the logical implemenation of the Identity service"
