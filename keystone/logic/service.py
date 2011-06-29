@@ -17,7 +17,6 @@ from datetime import datetime
 from datetime import timedelta
 import uuid
 
-from keystone.common import config
 import keystone.logic.types.auth as auth
 import keystone.logic.types.atom as atom
 import keystone.db.sqlalchemy.api as db_api
