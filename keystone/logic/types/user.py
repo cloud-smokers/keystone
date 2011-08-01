@@ -44,9 +44,9 @@ class User(object):
             email = root.get("email")
             password = root.get("password")
             enabled = root.get("enabled")
-            if user_id == None:
+            if user_id == None or len(user_id.strip()) == 0:
                 raise fault.BadRequestFault("Expecting User")
-            elif password == None:
+            elif password == None or len(password.strip()) == 0:
                 raise fault.BadRequestFault("Expecting User password")
             elif email == None:
                 raise fault.BadRequestFault("Expecting User email")
@@ -73,9 +73,16 @@ class User(object):
                 user_id = None
             else:
                 user_id = user["id"]
+
             if not "password" in user:
                 raise fault.BadRequestFault("Expecting User Password")
             password = user["password"]
+            
+            if user_id == None or len(user_id.strip()) == 0:
+                raise fault.BadRequestFault("Expecting User")
+            elif password == None or len(password.strip()) == 0:
+                raise fault.BadRequestFault("Expecting User password")
+
             if "tenantId" in user:
                 tenant_id = user["tenantId"]
             else:
@@ -132,13 +139,12 @@ class User_Update(object):
     """Document me!"""
     
     def __init__(self, password, user_id, tenant_id, email,
-            enabled, group=None):
+            enabled):
         self.user_id = user_id
         self.tenant_id = tenant_id
         self.password = password
         self.email = email
         self.enabled = enabled and True or False
-        self.group = group
 
     @staticmethod
     def from_xml(xml_str):
@@ -214,10 +220,6 @@ class User_Update(object):
             dom.set("enabled", string.lower(str(self.enabled)))
         if self.password:
             dom.set("password", self.password)
-        if self.group is not None:
-
-            for group in self.group:
-                dom.append(group.to_dom())
         return dom
 
     def to_xml(self):
@@ -236,9 +238,6 @@ class User_Update(object):
             user["email"] = self.email
         if self.enabled is not None:
             user["enabled"] = self.enabled
-        if self.group is not None:
-            values = [t.to_dict()["group"] for t in self.group]
-            user["groups"] = {"values": values}
         return {'user': user}
 
     def to_json(self):

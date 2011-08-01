@@ -37,6 +37,10 @@
 `dirname $0`/keystone-manage $* role grant Admin joeadmin 1234
 `dirname $0`/keystone-manage $* role grant Admin joeadmin ANOTHER:TENANT
 
+`dirname $0`/keystone-manage $* role add Member
+`dirname $0`/keystone-manage $* role grant Member joeuser 1234
+
+
 #Keeping for compatibility for a while till dashboard catches up - endpointTemplates
 `dirname $0`/keystone-manage $* endpointTemplates add RegionOne swift http://swift.publicinternets.com/v1/AUTH_%tenant_id% http://swift.admin-nets.local:8080/ http://127.0.0.1:8080/v1/AUTH_%tenant_id% 1 0
 `dirname $0`/keystone-manage $* endpointTemplates add RegionOne nova_compat http://nova.publicinternets.com/v1.0/ http://127.0.0.1:8774/v1.0  http://localhost:8774/v1.0 1 0
@@ -52,17 +56,6 @@
 `dirname $0`/keystone-manage $* endpointTemplates add RegionOne cdn http://cdn.publicinternets.com/v1.1/%tenant_id% http://cdn.admin-nets.local/v1.1/%tenant_id% http://127.0.0.1:7777/v1.1/%tenant_id% 1 0
 #Global endpointTemplate
 `dirname $0`/keystone-manage $* endpointTemplates add RegionOne identity http://keystone.publicinternets.com/v2.0 http://127.0.0.1:5001/v2.0 http://127.0.0.1:5000/v2.0 1 1
-
-
-# Groups
-#`dirname $0`/keystone-manage $* group add Admin 1234
-#`dirname $0`/keystone-manage $* group add Default 1234
-#`dirname $0`/keystone-manage $* group add Empty 0000
-
-# User Group Associations
-#`dirname $0`/keystone-manage $* user joeuser join Default
-#`dirname $0`/keystone-manage $* user disabled join Default
-#`dirname $0`/keystone-manage $* user admin join Admin
 
 # Tokens
 `dirname $0`/keystone-manage $* token add 887665443383838 joeuser 1234 2012-02-05T00:00

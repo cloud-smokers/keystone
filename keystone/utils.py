@@ -35,18 +35,18 @@ def get_app_root():
 
 
 def get_auth_token(req):
-    if "X-Auth-Token" in req.headers:
-        return req.headers["X-Auth-Token"]
+    """Returns the auth token from request headers"""
+    return req.headers.get("X-Auth-Token")
 
 
 def get_auth_user(req):
-    if "X-Auth-User" in req.headers:
-        return req.headers["X-Auth-User"]
+    """Returns the auth user from request headers"""
+    return req.headers.get("X-Auth-User")
 
 
 def get_auth_key(req):
-    if "X-Auth-Key" in req.headers:
-        return req.headers["X-Auth-Key"]
+    """Returns the auth key from request headers"""
+    return req.headers.get("X-Auth-Key")
 
 
 def wrap_error(func):
@@ -151,7 +151,13 @@ def import_module(module_name, class_name=None):
     module and options. If no class_name is given, it is assumed to
     be the last part of the module_name string.'''
     if class_name is None:
-        module_name, _separator, class_name = module_name.rpartition('.')
+        try:
+            __import__(module_name)
+            return sys.modules[module_name]
+        except ImportError as exc:
+            module_name, _separator, class_name = module_name.rpartition('.')
+            if not exc.args[0].startswith('No module named %s' % (class_name,)):
+                raise
     try:
         __import__(module_name)
         return getattr(sys.modules[module_name], class_name)

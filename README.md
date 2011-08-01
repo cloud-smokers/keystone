@@ -45,6 +45,23 @@ Starting both Admin and Service API endpoints:
 
     $ ./bin/keystone
 
+### Temporary fix for Segfault
+
+On some OSes, specifically Fedora 15, the current versions of
+greenlet/eventlet segfault when running keystone. To fix this, install
+the development versions of greenlet and eventlet
+
+    $ pip uninstall greenlet eventlet
+    $ cd <appropriate working directory>
+    $ hg clone https://bitbucket.org/ambroff/greenlet
+    $ cd greenlet
+    $ sudo python setup.py install
+
+    $ cd <appropriate working directory>
+    $ hg clone https://bitbucket.org/which_linden/eventlet
+    $ cd eventlet
+    $ sudo python setup.py install
+
 
 # For Keystone Contributors
 
@@ -89,6 +106,8 @@ $ pip install -r tools/pip-requires-testing
 # Install development dependencies
 $ pip install -r tools/pip-requires-development
 
+#Install Memcache (If memcache is one of the backends enabled)
+Refer #(http://memcached.org/)
 </pre>
 
 ## Running Keystone
@@ -369,3 +388,23 @@ We could potentially integrate with those:
 [OAUTH2](http://oauth.net/2/)
 
 [SAML] (http://saml.xml.org/)
+
+### LDAP Setup
+
+#### On a Mac
+
+Using macports:
+sudo port install openldap
+
+Looks like python-ldap needs recompiling to work. So:
+download it from here: http://pypi.python.org/pypi/python-ldap/2.4.1
+unpack it and go to the unpacked directory
+
+edit setup.cfg (set lines below):
+
+  library_dirs = /opt/local/lib
+  include_dirs = /opt/local/include /usr/include/sasl
+
+then run:
+python setup.py build
+sudo python setup.py install
