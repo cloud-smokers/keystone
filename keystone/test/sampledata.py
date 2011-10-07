@@ -22,6 +22,7 @@ DEFAULT_FIXTURE = [
     ('role', 'grant', 'Admin', 'joeadmin', 'ANOTHER:TENANT'),
     ('role', 'add', 'Member'),
     ('role', 'grant', 'Member', 'joeuser', 'customer-x'),
+    ('role', 'grant', 'Admin', 'admin', 'customer-x'),
 # Add Services
     #1 Service Name:exampleservice Type:example type
     ('service', 'add', 'exampleservice',
