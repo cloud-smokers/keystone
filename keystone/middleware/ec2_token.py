@@ -68,7 +68,7 @@ class EC2Token(wsgi.Middleware):
         # Disable "has no x member" pylint error
         # for httplib and urlparse
         # pylint: disable-msg=E1101
-        o = urlparse(FLAGS.keystone_ec1_url)
+        o = urlparse(FLAGS.keystone_ec2_url)
         if o.scheme == "http":
             conn = httplib.HTTPConnection(o.netloc)
         else:
@@ -81,9 +81,10 @@ class EC2Token(wsgi.Middleware):
         #             having keystone return token, tenant,
         #             user, and roles from this call.
         result = utils.loads(response)
-        # TODO(vish): check for errors
+        if result.has_key('access'):
 
-        token_id = result['auth']['token']['id']
-        # Authenticated!
-        req.headers['X-Auth-Token'] = token_id
+                # TODO(vish): check for errors
+                token_id = result['access']['token']['id']
+                # Authenticated!
+                req.headers['X-Auth-Token'] = token_id
         return self.application
